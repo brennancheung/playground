@@ -1,70 +1,30 @@
-# Getting Started with Create React App
+# Purpose
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This repo is meant as a playground for developing new components, ideas, and various utilities.
 
-## Available Scripts
+It's not meant to be a product, just a dumping ground for misc useful code.
 
-In the project directory, you can run:
+# Steps for creating a new Firebase React repo
 
-### `yarn start`
+1.  `npx create-reate-app <projectName>`
+2.  `eslint --init` (StandardJS code standard, yes to installing packages)
+3.  Delete the `package-lock.json` (`eslint` will only use `npm` instead of `yarn`) and run `yarn` again.
+3.  Copy over and tweak `.eslintrc` from previous project.
+4.  `eslint --fix src` to automatically clean up the React scaffolded code as much as possible.  (`eslint` should be installed globally as well)
+5.  Manually clean up rest of lint errors.  You can check with `eslint src`.
+6.  Create the project Firebase (enable Hosting, Firestore, and Google Auth).
+7.  Install the `firebase-tools` `npm` package globally.
+8.  `firebase login` (only needed if you haven't logged in previously from another project)
+9.  `firebase init` to associate the repo with the firebase project (use `build` instead of `public`, yes to SPA rewrite).
+10. Copy over the Firebase settings from the console into `firebaseConfig.js` (might need to fix the linting)
+11. Install the following npm packages: `@material-ui/core @material-ui/icons firebase` and as dev dependencies `babel-plugin-transform-imports react-app-rewired customize-cra`.
+12. Optimize `@material-ui` imports by copying over `.babelrc.js` from a previous project.  See Material-UI guide on minimizing bundle size if you are curious.
+13. Change `react-scripts start` to `react-app-rewired start` in `package.json`
+14. `find node_modules/* | wc -l`.  Gasp.  Shock.  Horror.  Move on with business as usual.
+15. Copy over the standard set of `hooks` and `common` components from another repo (might want to make this a package in the future).
+16. You are now ready to start adding actual functionality.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+# To deploy
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `yarn test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `yarn build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+1.  `yarn build`
+2.  `firebase deploy`
