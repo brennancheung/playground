@@ -7,6 +7,7 @@ import { MinimalLayout } from './layout/MinimalLayout'
 import { About } from './pages/About'
 import { Home } from './pages/Home'
 import { Profile } from './pages/Profile'
+import { Widgets } from './pages/Widgets'
 
 const NotFound = () => <h1>Not found</h1>
 
@@ -15,6 +16,7 @@ export const Routes = () => {
     <Router>
       <Switch>
         <RouteWithLayout component={Profile} exact layout={MainLayout} path="/profile" />
+        <RouteWithLayout component={Widgets} exact layout={MainLayout} path="/widgets" />
         <RouteWithLayout component={About} exact layout={MainLayout} path="/about" />
         <RouteWithLayout component={Home} exact layout={MainLayout} path="/" />
         <RouteWithLayout component={NotFound} exact layout={MinimalLayout} path="/not-found-cover" />

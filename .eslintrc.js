@@ -28,6 +28,7 @@ module.exports = {
     'react/prop-types': ['warn'],
     'react/jsx-key': ['warn'],
     'no-multi-spaces': ['off'],
+    'space-infix-ops': ['off'],
   },
   globals: {
     localStorage: true
