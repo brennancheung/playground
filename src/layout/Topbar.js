@@ -121,7 +121,9 @@ export const Topbar = props => {
       <Hidden smDown>
         <List className={classes.navigationContainer}>
           <Link to="/about">About</Link>
+          &nbsp;
           <Link to="/widgets">Widgets</Link>
+          &nbsp;
           <ListItem className={classes.listItem}>
             {initialized && !user && <CTAButton onClick={signInWithGoogle}>Sign In</CTAButton>}
             {user && <AvatarMenu user={user} />}
