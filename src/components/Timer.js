@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { Box, Container, Grid, Paper, Slider, Typography } from '@material-ui/core'
 import { v4 as uuid } from 'uuid'
 import { TimerSegment, TimerSegmentStates } from './TimerSegment'
+import { ElapsedSegment } from './ElapsedSegment'
 import { sum } from '../util'
 import { pluck } from 'ramda'
 
@@ -18,7 +19,7 @@ import { pluck } from 'ramda'
 const ORIGIN_ANGLE = Math.PI / 2.0
 
 // polar angular distance separating multiple segments
-const SEGMENT_GAP = Math.PI / 20
+const SEGMENT_GAP = Math.PI / 30
 
 const style = {
   border: '0px #000 solid',
@@ -31,31 +32,50 @@ const style = {
 const annotateSegments = segments => {
   const totalSegmentGaps = segments.length * SEGMENT_GAP
   const remaining = 2.0 * Math.PI - totalSegmentGaps
-  const radiansPerSecond = sum(pluck('allocated', segments))
+  const radiansPerSecond = remaining / sum(pluck('allocated', segments))
   const annotatedSegments = []
+  const elapsedSegments = []
   let cursorAngle = ORIGIN_ANGLE
 
   segments.forEach(segment => {
+    const elapsed = segment.allocated - segment.remaining
+    const elapsedRadians = elapsed * radiansPerSecond
+
+    if (elapsed > 0) {
+      const elapsedSegment = {
+        id: `elapsed-${segment.id}`,
+        startAngle: cursorAngle,
+        angularDistance: elapsedRadians,
+      }
+      elapsedSegments.push(elapsedSegment)
+    }
+    cursorAngle -= elapsedRadians
+
     const annotated = ({
       ...segment,
       startAngle: cursorAngle,
-      angularDistance: radiansPerSecond * segment.allocated,
+      angularDistance: radiansPerSecond * (segment.allocated - elapsed),
     })
+
     annotatedSegments.push(annotated)
-    cursorAngle += annotated.angularDistance
+    cursorAngle -= annotated.angularDistance + SEGMENT_GAP
   })
 
-  return annotatedSegments
+  return { annotated: annotatedSegments, elapsed: elapsedSegments }
 }
 
 export const Timer = ({ width, height, segments }) => {
+  const { annotated, elapsed } = annotateSegments(segments)
+  console.log(elapsed)
+
   return (
     <div>
       <br />
       <Container maxWidth="md">
         <Paper elevation={3}>
           <svg viewBox="-1 -1 2 2" width={width} height={height} style={style} xmlns="http://www.w3.org/2000/svg" >
-            <TimerSegment />
+            {annotated.map(segment => <TimerSegment key={segment.id} {...segment} />)}
+            {elapsed.map(segment => <ElapsedSegment key={segment.id} {...segment} />)}
           </svg>
         </Paper>
       </Container>

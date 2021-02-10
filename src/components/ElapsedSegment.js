@@ -12,7 +12,7 @@ const polar2Cartesian = (radians, radius) => ({
   y: -radius * Math.sin(radians)
 })
 
-export const TimerSegment = ({ id, state, startAngle, angularDistance }) => {
+export const ElapsedSegment = ({ id, startAngle, angularDistance }) => {
   const innerStart = polar2Cartesian(startAngle, INNER_RADIUS)
   const outerStart = polar2Cartesian(startAngle, OUTER_RADIUS)
   const innerEnd = polar2Cartesian(startAngle - angularDistance, INNER_RADIUS)
@@ -34,20 +34,19 @@ export const TimerSegment = ({ id, state, startAngle, angularDistance }) => {
     .join(' ')
 
   return (
-    <path d={parts} stroke="#000" fill="#ccf" />
+    <path d={parts} stroke="#000" fill="#fcc" />
   )
 }
 
 export const TimerSegmentStates = ['paused', 'running', 'finished']
 
-TimerSegment.propTypes = {
+ElapsedSegment.propTypes = {
   id: PropTypes.string,
-  state: PropTypes.oneOf(['paused', 'running', 'finished']),
   startAngle: PropTypes.number.isRequired,
   angularDistance: PropTypes.number,
 }
 
-TimerSegment.defaultProps = {
+ElapsedSegment.defaultProps = {
   angularDistance: 0.4 * Math.PI,
   startAngle: Math.PI / 2.0,
 }
