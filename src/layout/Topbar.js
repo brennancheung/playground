@@ -122,6 +122,8 @@ export const Topbar = props => {
         <List className={classes.navigationContainer}>
           <Link to="/about">About</Link>
           &nbsp;
+          <Link to="/docs">Docs</Link>
+          &nbsp;
           <Link to="/widgets">Widgets</Link>
           &nbsp;
           <ListItem className={classes.listItem}>
