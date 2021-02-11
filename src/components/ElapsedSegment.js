@@ -1,40 +1,46 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
+import { times } from '../util'
 const INNER_RADIUS = 0.50
 const OUTER_RADIUS = 0.80
 
-const rad2deg = rad => rad * (180.0 / Math.PI)
-const deg2rad = deg => deg * (Math.PI / 180.0)
+// Spacing between ticks in radians
+const tickInterval = Math.PI / 100
 
 const polar2Cartesian = (radians, radius) => ({
   x: +radius * Math.cos(radians),
   y: -radius * Math.sin(radians)
 })
 
-export const ElapsedSegment = ({ id, startAngle, angularDistance }) => {
-  const innerStart = polar2Cartesian(startAngle, INNER_RADIUS)
-  const outerStart = polar2Cartesian(startAngle, OUTER_RADIUS)
-  const innerEnd = polar2Cartesian(startAngle - angularDistance, INNER_RADIUS)
-  const outerEnd = polar2Cartesian(startAngle - angularDistance, OUTER_RADIUS)
+const toFixed = digits => num => Number(num).toFixed(digits)
+const fixed4 = toFixed(4)
 
-  const sweepFlag = angularDistance > Math.PI ? 1 : 0
-
-  const toFixed = digits => num => Number(num).toFixed(digits)
-  const fixed4 = toFixed(4)
-
+const pathLine = (start, stop) => {
   const parts = [
-    'M', innerStart.x, innerStart.y,
-    'L', outerStart.x, outerStart.y,
-    'A', OUTER_RADIUS, OUTER_RADIUS, 0, sweepFlag, 1, outerEnd.x, outerEnd.y,
-    'L', innerEnd.x, innerEnd.y,
-    'A', INNER_RADIUS, INNER_RADIUS, 0, sweepFlag, 0, innerStart.x, innerStart.y,
+    'M', start.x, start.y,
+    'L', stop.x, stop.y,
   ]
     .map(x => (typeof x === 'number') && x !== 0 && x !== 1 ? fixed4(x) : x)
     .join(' ')
 
+  const key = `tick-${start.x}-${start.y}`
+  return <path key={key} d={parts} stroke="#000" />
+}
+
+export const ElapsedSegment = ({ id, startAngle, angularDistance }) => {
+  const numTicks = angularDistance / tickInterval
+  if (numTicks === 0) return null
+  const tickAngles = times(numTicks).map(i => startAngle - i * tickInterval)
+  const ticks = tickAngles.map(theta => ({
+    inner: polar2Cartesian(theta, INNER_RADIUS),
+    outer: polar2Cartesian(theta, OUTER_RADIUS),
+  }))
+    .map(tick => pathLine(tick.inner, tick.outer))
+
   return (
-    <path d={parts} stroke="#000" fill="#fcc" />
+    <>
+      {ticks}
+    </>
   )
 }
 
