@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import { Box, Container, Grid, Paper, Slider, Typography } from '@material-ui/core'
 import { v4 as uuid } from 'uuid'
 import { TimerSegment, TimerSegmentStates } from './TimerSegment'
 import { ElapsedSegment } from './ElapsedSegment'
@@ -66,20 +65,12 @@ const annotateSegments = segments => {
 
 export const Timer = ({ width, height, segments }) => {
   const { annotated, elapsed } = annotateSegments(segments)
-  console.log(elapsed)
 
   return (
-    <div>
-      <br />
-      <Container maxWidth="md">
-        <Paper elevation={3}>
-          <svg viewBox="-1 -1 2 2" width={width} height={height} style={style} xmlns="http://www.w3.org/2000/svg" >
-            {annotated.map(segment => <TimerSegment key={segment.id} {...segment} />)}
-            {elapsed.map(segment => <ElapsedSegment key={segment.id} {...segment} />)}
-          </svg>
-        </Paper>
-      </Container>
-    </div>
+    <svg viewBox="-1 -1 2 2" width={width} height={height} style={style} xmlns="http://www.w3.org/2000/svg" >
+      {annotated.map(segment => <TimerSegment key={segment.id} {...segment} />)}
+      {elapsed.map(segment => <ElapsedSegment key={segment.id} {...segment} />)}
+    </svg>
   )
 }
 
@@ -98,6 +89,7 @@ export const mockData = {
     { id: uuid(), allocated: 300.0, state: 'paused', remaining: 300.0 },
   ]
 }
+
 Timer.propTypes = {
   segments: PropTypes.arrayOf(SegmentType).isRequired,
   width: PropTypes.number,

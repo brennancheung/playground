@@ -6,3 +6,6 @@ export const times = n => {
   for (let i=0; i<n; i++) arr.push(i)
   return arr
 }
+
+export const wrapOnChange = fn => (e, v) => fn(v)
+export const wrapEventValue = fn => e => fn(e.target.value)
