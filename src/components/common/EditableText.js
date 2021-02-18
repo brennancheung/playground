@@ -4,6 +4,7 @@ import { EditorState, RichUtils, convertToRaw } from 'draft-js'
 import Editor from '@draft-js-plugins/editor'
 import createLinkifyPlugin from '@draft-js-plugins/linkify'
 import 'draft-js/dist/Draft.css'
+import '@draft-js-plugins/linkify/lib/plugin.css'
 
 const linkifyPlugin = createLinkifyPlugin()
 const plugins = [linkifyPlugin]
