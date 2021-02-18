@@ -9,11 +9,7 @@ const mockData = ${JSON.stringify(mockData, null, 2)}
 `
 
 const editableTextCode = `
-<EditableText value={textValue} onChange={wrapEventValue(setTextValue)}>{
-  ({ value, setEditing, ...params }) => (
-    <div onClick={setEditing} {...params}>{value}</div>
-  )
-}
+<EditableText value={textValue} onChange={handleOnChange} />
 `
 
 export const Widgets = () => {

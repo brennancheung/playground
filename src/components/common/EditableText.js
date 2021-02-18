@@ -29,6 +29,8 @@ export const EditableText = () => {
     <div>
       <div>
         <button onClick={() => handleKeyCommand('bold')}>Bold</button>
+        <button onClick={() => handleKeyCommand('italic')}>Italic</button>
+        <button onClick={() => handleKeyCommand('underline')}>Underline</button>
         <button onClick={() => handleKeyCommand('code')}>Code</button>
       </div>
       <div style={style}>
