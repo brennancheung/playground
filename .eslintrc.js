@@ -29,6 +29,7 @@ module.exports = {
     'react/jsx-key': ['warn'],
     'no-multi-spaces': ['off'],
     'space-infix-ops': ['off'],
+    'no-constant-condition': ['warn'], // sometimes useful to do things like if (true) { ... } during debugging
   },
   globals: {
     localStorage: true

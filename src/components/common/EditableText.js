@@ -1,34 +1,48 @@
-import React, { useRef, useState } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { useClickAway } from '../../hooks/useClickAway'
+import { EditorState, RichUtils, convertToRaw } from 'draft-js'
+import Editor from '@draft-js-plugins/editor'
+import createLinkifyPlugin from '@draft-js-plugins/linkify'
+import 'draft-js/dist/Draft.css'
+
+const linkifyPlugin = createLinkifyPlugin()
+const plugins = [linkifyPlugin]
 
 const style = {
   width: '100%',
   fontSize: '16px',
+  border: '1px solid #888',
 }
 // EditableText allows for bimodal control.  There is an editing mode and a
 // normal display mode.  The normal display mode uses a render prop pattern.
-export const EditableText = ({ value, onChange, children }) => {
-  const [isEditing, setIsEditing] = useState(false)
-  const ref = useRef(null)
-  const handleClickAway = () => setIsEditing(false)
-  useClickAway(ref, handleClickAway)
+export const EditableText = () => {
+  const [editorState, setEditorState] = useState(EditorState.createEmpty())
 
-  const handleKeyPress = e => {
-    if (e.key === 'Enter') setIsEditing(false)
+  const handleKeyCommand = (command) => {
+    const newState = RichUtils.handleKeyCommand(editorState, command)
+    setEditorState(newState)
   }
 
-  const setEditing = () => setIsEditing(true)
+  const stateJson = convertToRaw(editorState.getCurrentContent())
 
-  if (isEditing) {
-    return <input style={style} ref={ref} type="text" value={value} onChange={onChange} onKeyDown={handleKeyPress} />
-  }
-
-  return children({ value, setEditing })
+  return (
+    <div>
+      <div>
+        <button onClick={() => handleKeyCommand('bold')}>Bold</button>
+        <button onClick={() => handleKeyCommand('code')}>Code</button>
+      </div>
+      <div style={style}>
+        <Editor
+          editorState={editorState}
+          onChange={setEditorState}
+          handleKeyCommand={handleKeyCommand}
+          plugins={plugins}
+        />
+      </div>
+      <pre>{JSON.stringify(stateJson, null, 4)}</pre>
+    </div>
+  )
 }
 
 EditableText.propTypes = {
-  value: PropTypes.any,
-  onChange: PropTypes.func,
-  children: PropTypes.func,
 }

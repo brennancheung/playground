@@ -3,6 +3,7 @@ import { ThemeProvider } from '@material-ui/core/styles'
 import { AuthProvider } from './hooks/useAuth'
 import { theme } from './theme/theme'
 import { Routes } from './Routes'
+import './App.css'
 
 const App = () => {
   return (
