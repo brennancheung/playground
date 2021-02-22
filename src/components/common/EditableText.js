@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { EditorState, RichUtils, convertToRaw } from 'draft-js'
+import { ContentState, EditorState, RichUtils, convertToRaw } from 'draft-js'
 import Editor from '@draft-js-plugins/editor'
 import createLinkifyPlugin from '@draft-js-plugins/linkify'
 import 'draft-js/dist/Draft.css'
@@ -9,13 +9,20 @@ import '@draft-js-plugins/linkify/lib/plugin.css'
 const linkifyPlugin = createLinkifyPlugin()
 const plugins = [linkifyPlugin]
 
+const convertToText = state =>
+  convertToRaw(state.getCurrentContent()).blocks
+    .map(block => (!block.text.trim() && '\n') || block.text)
+    .join('\n')
+
+const textToEditorState = text => EditorState.createWithContent(ContentState.createFromText(text))
+
 const style = {
   width: '100%',
   fontSize: '16px',
   border: '1px solid #888',
+  lineHeight: '20px',
 }
-// EditableText allows for bimodal control.  There is an editing mode and a
-// normal display mode.  The normal display mode uses a render prop pattern.
+
 export const EditableText = () => {
   const [editorState, setEditorState] = useState(EditorState.createEmpty())
 
@@ -25,6 +32,19 @@ export const EditableText = () => {
   }
 
   const stateJson = convertToRaw(editorState.getCurrentContent())
+  const plainText = editorState.getCurrentContent().getPlainText()
+
+  const handleSave = () => {
+    localStorage.setItem('saveTest', plainText)
+  }
+
+  const handleLoad = () => {
+    const text = localStorage.getItem('saveTest')
+    if (!text) return
+    const cs = ContentState.createFromText(text)
+    const es = EditorState.createWithContent(cs)
+    setEditorState(es)
+  }
 
   return (
     <div>
@@ -42,6 +62,9 @@ export const EditableText = () => {
           plugins={plugins}
         />
       </div>
+      <button onClick={handleLoad}>Load test</button>
+      <button onClick={handleSave}>Save test</button>
+      <pre>{editorState.getCurrentContent().getPlainText()}</pre>
       <pre>{JSON.stringify(stateJson, null, 4)}</pre>
     </div>
   )
