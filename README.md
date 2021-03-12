@@ -28,3 +28,4 @@ It's not meant to be a product, just a dumping ground for misc useful code.
 
 1.  `yarn build`
 2.  `firebase deploy`
+
