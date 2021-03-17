@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 const Container = styled.div`
@@ -113,4 +114,17 @@ export const TimerBarSegment = ({ topicNum=3, state='active', allocated=300, ela
       {showTopicOverlay && <TopicNumber>#{topicNum}</TopicNumber>}
     </Container>
   )
+}
+
+TimerBarSegment.propTypes = {
+  topicNum: PropTypes.number.isRequred,
+  state: PropTypes.string.isRequired,
+
+  // specified in seconds
+  allocated: PropTypes.number.isRequired,
+  elapsed: PropTypes.number,
+  overtime: PropTypes.number,
+
+  // pixels per second
+  pps: PropTypes.number.isRequired,
 }
