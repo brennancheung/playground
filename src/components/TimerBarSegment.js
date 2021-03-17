@@ -117,7 +117,7 @@ export const TimerBarSegment = ({ topicNum=3, state='active', allocated=300, ela
 }
 
 TimerBarSegment.propTypes = {
-  topicNum: PropTypes.number.isRequred,
+  topicNum: PropTypes.number.isRequired,
   state: PropTypes.string.isRequired,
 
   // specified in seconds
