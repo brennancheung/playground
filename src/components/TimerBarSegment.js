@@ -83,7 +83,7 @@ const CursorTopic = styled.div`
   position: absolute;
 `
 
-export const TimerBarSegment = ({ topicNum=3, state='active', allocated=300, elapsed=200, overtime=0, pps=1.0 }) => {
+export const TimerBarSegment = ({ topicNum=3, state='active', allocated=300, elapsed=200, overtime=0, pps=0.5 }) => {
   const elapsedWidth = pps * elapsed
   const overtimeWidth = pps * overtime
   const allocatedWidth = pps * allocated

@@ -4,6 +4,7 @@ import { EditableText } from '../components/common/EditableText'
 import { WidgetExample } from '../components/common/WidgetExample'
 import { Timer, mockData } from '../components/Timer'
 import { TimerBarSegment } from '../components/TimerBarSegment'
+import { TimerBarsMeeting } from '../components/TimerBarsMeeting'
 
 const timerCode = `
 const mockData = ${JSON.stringify(mockData, null, 2)}
@@ -40,6 +41,9 @@ export const Widgets = () => {
 
   return (
     <div>
+      <WidgetExample title="TimerSegment" code={timerSegmentCode}>
+        <TimerBarsMeeting />
+      </WidgetExample>
       <br />
 
       <WidgetExample title="TimerSegment" code={timerSegmentCode}>
